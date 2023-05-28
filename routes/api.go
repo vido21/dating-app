@@ -7,6 +7,7 @@ import (
 	premiumPackages "github.com/github.com/vido21/dating-app/premium-packages"
 	"github.com/github.com/vido21/dating-app/profiles"
 	"github.com/github.com/vido21/dating-app/purchases"
+	"github.com/github.com/vido21/dating-app/swipes"
 	"github.com/labstack/echo/v4"
 )
 
@@ -17,6 +18,7 @@ func DefineApiRoute(e *echo.Echo) {
 		profiles.ProfilesController{},
 		premiumPackages.PremiumPackageController{},
 		purchases.PurchaseController{},
+		swipes.SwipesController{},
 	}
 	var routes []common.Route
 	for _, controller := range controllers {

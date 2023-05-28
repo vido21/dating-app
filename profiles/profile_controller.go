@@ -1,7 +1,6 @@
 package profiles
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/dgrijalva/jwt-go"
@@ -36,11 +35,6 @@ func (controller ProfilesController) Routes() []common.Route {
 			Handler:    controller.GetProfile,
 			Middleware: []echo.MiddlewareFunc{common.JwtMiddleWare()},
 		},
-		{
-			Method:  echo.GET,
-			Path:    "/profile/next",
-			Handler: controller.GetMatch,
-		},
 	}
 }
 
@@ -73,26 +67,6 @@ func (controller ProfilesController) GetProfile(ctx echo.Context) error {
 
 	userID := user.Id
 
-	fmt.Println(user)
-
-	db := database.GetInstance()
-	var profiles []models.Profile
-	db.Find(&profiles)
-
-	var profile models.Profile
-	err := db.First(&profile, "user_id = ?", userID).Error
-	if err != nil {
-		return echo.NewHTTPError(http.StatusNotFound, "Profile not found")
-	}
-
-	return ctx.JSON(http.StatusOK, profiles)
-}
-
-func (controller ProfilesController) GetMatch(ctx echo.Context) error {
-	user := ctx.Get("user").(*jwt.Token)
-	token := user.Claims.(*common.JwtCustomClaims)
-
-	userID := token.Id
 	db := database.GetInstance()
 	var profiles []models.Profile
 	db.Find(&profiles)
