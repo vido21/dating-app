@@ -39,7 +39,7 @@ func main() {
 		log.Println("migrations failed.", err)
 	}
 
-	err = database.SeedPremiumPackages(db)
+	err = database.InitSeeder(db)
 	if err == nil {
 		log.Println("Seed did run successfully")
 	} else {
