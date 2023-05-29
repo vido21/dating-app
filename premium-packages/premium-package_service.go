@@ -30,22 +30,22 @@ func SetPremiumPackageService(service PremiumPackageService) PremiumPackageServi
 }
 
 type PremiumPackageService interface {
-	FindPremiumPackageByID(id uuid.UUID) *models.PremiumPackage
+	FindPremiumPackageByID(id uuid.UUID) (*models.PremiumPackage, error)
 	FindPremiumPackageByIDs(ids []uuid.UUID) (*[]models.PremiumPackage, error)
 	IsConsistsUnlimitedQuotaPackage(premiumPackages []models.PremiumPackage) bool
 	IsConsistsVerifiedUserPackage(premiumPackages []models.PremiumPackage) bool
 }
 
-func (u *premiumPackageService) FindPremiumPackageByID(id uuid.UUID) *models.PremiumPackage {
+func (u *premiumPackageService) FindPremiumPackageByID(id uuid.UUID) (*models.PremiumPackage, error) {
 	db := database.GetInstance()
 	var premiumPackage models.PremiumPackage
 
 	err := db.First(&premiumPackage, "id = ?", id).Error
-	if err == nil {
-		return &premiumPackage
+	if err != nil {
+		return nil, err
 	}
 
-	return nil
+	return &premiumPackage, nil
 }
 
 func (u *premiumPackageService) FindPremiumPackageByIDs(ids []uuid.UUID) (*[]models.PremiumPackage, error) {

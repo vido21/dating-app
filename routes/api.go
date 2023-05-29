@@ -2,7 +2,6 @@ package routes
 
 import (
 	"github.com/github.com/vido21/dating-app/auth"
-	"github.com/github.com/vido21/dating-app/blogs"
 	"github.com/github.com/vido21/dating-app/common"
 	premiumPackages "github.com/github.com/vido21/dating-app/premium-packages"
 	"github.com/github.com/vido21/dating-app/profiles"
@@ -14,7 +13,6 @@ import (
 func DefineApiRoute(e *echo.Echo) {
 	controllers := []common.Controller{
 		auth.AuthController{},
-		blogs.BlogsController{},
 		profiles.ProfilesController{},
 		premiumPackages.PremiumPackageController{},
 		purchases.PurchaseController{},

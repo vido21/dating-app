@@ -30,17 +30,6 @@ func (controller PurchaseController) Routes() []common.Route {
 			Handler:    controller.PurchasePackage,
 			Middleware: []echo.MiddlewareFunc{common.JwtMiddleWare()},
 		},
-		// {
-		// 	Method:     echo.GET,
-		// 	Path:       "/profile",
-		// 	Handler:    controller.GetProfile,
-		// 	Middleware: []echo.MiddlewareFunc{common.JwtMiddleWare()},
-		// },
-		// {
-		// 	Method:  echo.GET,
-		// 	Path:    "/profile/next",
-		// 	Handler: controller.GetMatch,
-		// },
 	}
 }
 
@@ -53,8 +42,8 @@ func (controller PurchaseController) PurchasePackage(ctx echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, err)
 	}
 
-	premium := premiumPackage.GetPremiumPackageService().FindPremiumPackageByID(param.PremiumPackageID)
-	if premium == nil {
+	premium, err := premiumPackage.GetPremiumPackageService().FindPremiumPackageByID(param.PremiumPackageID)
+	if premium == nil || err == nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "Premium package not found")
 	}
 

@@ -2,16 +2,16 @@ package test
 
 import (
 	"log"
-	"os"
+	"path/filepath"
 
-	BlogModels "github.com/github.com/vido21/dating-app/blogs/models"
 	"github.com/github.com/vido21/dating-app/database"
 	UserModels "github.com/github.com/vido21/dating-app/users/models"
 	"github.com/joho/godotenv"
 )
 
 func LoadTestEnv() error {
-	err := godotenv.Load(os.ExpandEnv("$GOPATH/src/github.com/github.com/vido21/dating-app/test.env"))
+	testEnvPath := filepath.Join("./..", ".test.env")
+	err := godotenv.Load(testEnvPath)
 	if err != nil {
 		log.Fatal("failed to load test env config: ", err)
 	}
@@ -20,10 +20,13 @@ func LoadTestEnv() error {
 
 func InitTest() {
 	err := LoadTestEnv()
+	if err != nil {
+		log.Fatal("failed to load test environment: ", err)
+	}
+
 	db := database.GetInstance()
 	db.DropTable("migrations")
 	db.DropTableIfExists(&UserModels.User{})
-	db.DropTableIfExists(&BlogModels.Blog{})
 	m := database.GetMigrations(db)
 	err = m.Migrate()
 	if err != nil {
