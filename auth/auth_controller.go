@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/dgrijalva/jwt-go"
@@ -57,9 +58,11 @@ func (controller AuthController) Profile(c echo.Context) error {
 func (controller AuthController) Register(ctx echo.Context) error {
 	params := new(RegisterUserRequest)
 	if err := ctx.Bind(params); err != nil {
+		log.Println(err)
 		return echo.NewHTTPError(http.StatusBadRequest, err)
 	}
 	if err := ctx.Validate(params); err != nil {
+		log.Println(err)
 		return echo.NewHTTPError(http.StatusBadRequest, err)
 	}
 	if user := users.GetUsersService().FindUserByEmail(params.Email); user != nil {

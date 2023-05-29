@@ -13,7 +13,6 @@ import (
 	"github.com/github.com/vido21/dating-app/common"
 	"github.com/github.com/vido21/dating-app/config"
 	"github.com/github.com/vido21/dating-app/database"
-	"github.com/github.com/vido21/dating-app/test"
 	commonTest "github.com/github.com/vido21/dating-app/test"
 	userModels "github.com/github.com/vido21/dating-app/users/models"
 	"github.com/jinzhu/gorm"
@@ -37,7 +36,6 @@ func TestGetListOfPremiumPackagesController_GetListOfPremiumPackages(t *testing.
 		{
 			name: "Profile api should return 200 response when the authorization header is valid and success get data",
 			test: func() {
-				test.LoadTestEnv()
 				token, _ := auth.GetAuthService().GetAccessToken(&userModels.User{
 					Name:     commonTest.TestName,
 					Email:    commonTest.TestEmail,

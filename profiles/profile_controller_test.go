@@ -15,7 +15,6 @@ import (
 	"github.com/github.com/vido21/dating-app/common"
 	"github.com/github.com/vido21/dating-app/config"
 	"github.com/github.com/vido21/dating-app/database"
-	"github.com/github.com/vido21/dating-app/test"
 	commonTest "github.com/github.com/vido21/dating-app/test"
 	userModels "github.com/github.com/vido21/dating-app/users/models"
 	"github.com/go-playground/validator"
@@ -84,7 +83,6 @@ func TestProfilesController_CreateProfile(t *testing.T) {
 
 func TestProfilesController_GetProfile(t *testing.T) {
 	println("Profile api should return 200 response when the authorization header is valid")
-	test.LoadTestEnv()
 	token, _ := auth.GetAuthService().GetAccessToken(&userModels.User{
 		Name:     commonTest.TestName,
 		Email:    commonTest.TestEmail,

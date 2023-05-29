@@ -14,7 +14,6 @@ import (
 	"github.com/github.com/vido21/dating-app/config"
 	MocksUtils "github.com/github.com/vido21/dating-app/mocks/common/utils"
 	MocksUsers "github.com/github.com/vido21/dating-app/mocks/users"
-	"github.com/github.com/vido21/dating-app/test"
 	commonTest "github.com/github.com/vido21/dating-app/test"
 	"github.com/github.com/vido21/dating-app/users"
 	UserModels "github.com/github.com/vido21/dating-app/users/models"
@@ -237,7 +236,6 @@ func TestRoutes(t *testing.T) {
 
 func TestProfile(t *testing.T) {
 	println("Profile api should return 200 response when the authorization header is valid")
-	test.LoadTestEnv()
 	token, _ := GetAuthService().GetAccessToken(&UserModels.User{
 		Name:     commonTest.TestName,
 		Email:    commonTest.TestEmail,

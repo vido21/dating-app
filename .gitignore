@@ -6,5 +6,6 @@ test.*
 test.env
 go-echo-boilerplate
 data
+data-testing
 .vscode
 vendor
