@@ -65,17 +65,12 @@ func (controller ProfilesController) GetProfile(ctx echo.Context) error {
 	token := ctx.Get("user").(*jwt.Token)
 	user := token.Claims.(*common.JwtCustomClaims)
 
-	userID := user.Id
-
 	db := database.GetInstance()
-	var profiles []models.Profile
-	db.Find(&profiles)
-
 	var profile models.Profile
-	err := db.First(&profile, "user_id = ?", userID).Error
+	err := db.First(&profile, "user_id = ?", user.Id).Error
 	if err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, "Profile not found")
 	}
 
-	return ctx.JSON(http.StatusOK, profiles)
+	return ctx.JSON(http.StatusOK, profile)
 }

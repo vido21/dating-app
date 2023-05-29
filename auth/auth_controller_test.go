@@ -15,6 +15,7 @@ import (
 	MocksUtils "github.com/github.com/vido21/dating-app/mocks/common/utils"
 	MocksUsers "github.com/github.com/vido21/dating-app/mocks/users"
 	"github.com/github.com/vido21/dating-app/test"
+	commonTest "github.com/github.com/vido21/dating-app/test"
 	"github.com/github.com/vido21/dating-app/users"
 	UserModels "github.com/github.com/vido21/dating-app/users/models"
 	"github.com/go-playground/validator"
@@ -22,10 +23,6 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/assert"
 )
-
-var testName = "test"
-var testEmail = "test@test.com"
-var testPassword = "123456"
 
 func TestLoginFailWithInvalidPayload(t *testing.T) {
 	println("Login api should return 400 error when the request payload is invalid")
@@ -64,11 +61,11 @@ func TestLoginFailWithNonExistingUser(t *testing.T) {
 	testServer.Validator = &common.CustomValidator{Validator: validator.New()}
 	authController := AuthController{}
 	loginForm := LoginRequest{
-		Email:    testEmail,
-		Password: testPassword,
+		Email:    commonTest.TestEmail,
+		Password: commonTest.TestPassword,
 	}
 	mockUserService := &MocksUsers.UsersService{}
-	mockUserService.On("FindUserByEmail", testEmail).Return(nil)
+	mockUserService.On("FindUserByEmail", commonTest.TestEmail).Return(nil)
 	originalUserService := users.SetUsersService(mockUserService)
 
 	data, _ := json.Marshal(loginForm)
@@ -87,12 +84,12 @@ func TestLoginFailWithInvalidPassword(t *testing.T) {
 	testServer.Validator = &common.CustomValidator{Validator: validator.New()}
 	authController := AuthController{}
 	var loginForm LoginRequest
-	loginForm.Email = testEmail
+	loginForm.Email = commonTest.TestEmail
 	loginForm.Password = "wrong password"
 	mockUserService := &MocksUsers.UsersService{}
-	mockUserService.On("FindUserByEmail", testEmail).Return(&UserModels.User{
-		Name:     testEmail,
-		Password: testPassword,
+	mockUserService.On("FindUserByEmail", commonTest.TestEmail).Return(&UserModels.User{
+		Name:     commonTest.TestEmail,
+		Password: commonTest.TestPassword,
 	})
 	originalUserService := users.SetUsersService(mockUserService)
 
@@ -111,24 +108,24 @@ func TestLoginSuccess(t *testing.T) {
 	println("Login api should return 200 response when login was successful")
 	// create a test user
 	user := UserModels.User{
-		Name:     testName,
-		Email:    testEmail,
-		Password: testPassword,
+		Name:     commonTest.TestName,
+		Email:    commonTest.TestEmail,
+		Password: commonTest.TestPassword,
 	}
 	mockUserService := &MocksUsers.UsersService{}
-	mockUserService.On("FindUserByEmail", testEmail).Return(&user)
+	mockUserService.On("FindUserByEmail", commonTest.TestEmail).Return(&user)
 	originalUserService := users.SetUsersService(mockUserService)
 
 	mockPasswordUtil := MocksUtils.PasswordUtil{}
-	mockPasswordUtil.On("CheckPasswordHash", testPassword, testPassword).Return(true)
+	mockPasswordUtil.On("CheckPasswordHash", commonTest.TestPassword, commonTest.TestPassword).Return(true)
 	originalPasswordUtil := utils.SetPasswordUtil(&mockPasswordUtil)
 
 	testServer := echo.New()
 	testServer.Validator = &common.CustomValidator{Validator: validator.New()}
 	authController := AuthController{}
 	var loginForm LoginRequest
-	loginForm.Email = testEmail
-	loginForm.Password = testPassword
+	loginForm.Email = commonTest.TestEmail
+	loginForm.Password = commonTest.TestPassword
 	data, _ := json.Marshal(loginForm)
 	req := httptest.NewRequest(http.MethodPost, "/", bytes.NewBufferString(string(data)))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
@@ -163,8 +160,8 @@ func TestRegisterInvalidParams(t *testing.T) {
 	authController := AuthController{}
 	var registerForm RegisterUserRequest
 	registerForm.Email = "wrong-email-format"
-	registerForm.Password = testPassword
-	registerForm.Name = testName
+	registerForm.Password = commonTest.TestPassword
+	registerForm.Name = commonTest.TestName
 	data, _ := json.Marshal(registerForm)
 	req := httptest.NewRequest(http.MethodPost, "/", bytes.NewBufferString(string(data)))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
@@ -181,14 +178,14 @@ func TestRegisterEmailConflict(t *testing.T) {
 	testServer.Validator = &common.CustomValidator{Validator: validator.New()}
 	authController := AuthController{}
 	registerForm := RegisterUserRequest{
-		Email:    testEmail,
-		Password: testPassword,
-		Name:     testName,
+		Email:    commonTest.TestEmail,
+		Password: commonTest.TestPassword,
+		Name:     commonTest.TestName,
 	}
 	mockUserService := &MocksUsers.UsersService{}
-	mockUserService.On("FindUserByEmail", testEmail).Return(&UserModels.User{
-		Name:     testEmail,
-		Password: testPassword,
+	mockUserService.On("FindUserByEmail", commonTest.TestEmail).Return(&UserModels.User{
+		Name:     commonTest.TestEmail,
+		Password: commonTest.TestPassword,
 	})
 	originalUserService := users.SetUsersService(mockUserService)
 	data, _ := json.Marshal(registerForm)
@@ -208,16 +205,16 @@ func TestRegisterSuccess(t *testing.T) {
 	testServer.Validator = &common.CustomValidator{Validator: validator.New()}
 	authController := AuthController{}
 	registerForm := RegisterUserRequest{
-		Email:    testEmail,
-		Password: testPassword,
-		Name:     testName,
+		Email:    commonTest.TestEmail,
+		Password: commonTest.TestPassword,
+		Name:     commonTest.TestName,
 	}
 	mockUserService := &MocksUsers.UsersService{}
-	mockUserService.On("FindUserByEmail", testEmail).Return(nil)
-	mockUserService.On("AddUser", testName, testEmail, testPassword).Return(&UserModels.User{
-		Name:     testName,
-		Email:    testEmail,
-		Password: testPassword,
+	mockUserService.On("FindUserByEmail", commonTest.TestEmail).Return(nil)
+	mockUserService.On("AddUser", commonTest.TestName, commonTest.TestEmail, commonTest.TestPassword).Return(&UserModels.User{
+		Name:     commonTest.TestName,
+		Email:    commonTest.TestEmail,
+		Password: commonTest.TestPassword,
 	})
 	originalUserService := users.SetUsersService(mockUserService)
 	data, _ := json.Marshal(registerForm)
@@ -242,9 +239,9 @@ func TestProfile(t *testing.T) {
 	println("Profile api should return 200 response when the authorization header is valid")
 	test.LoadTestEnv()
 	token, _ := GetAuthService().GetAccessToken(&UserModels.User{
-		Name:     testName,
-		Email:    testEmail,
-		Password: testPassword,
+		Name:     commonTest.TestName,
+		Email:    commonTest.TestEmail,
+		Password: commonTest.TestPassword,
 	})
 
 	testServer := echo.New()
@@ -256,7 +253,7 @@ func TestProfile(t *testing.T) {
 	context := testServer.NewContext(req, resp)
 	uid, _ := uuid.NewV4()
 	jwtClaims := common.JwtCustomClaims{
-		Name: testName,
+		Name: commonTest.TestName,
 		Id:   uid,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * config.TokenExpiresIn).Unix(),

@@ -1,6 +1,7 @@
 package purchases
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/dgrijalva/jwt-go"
@@ -43,7 +44,9 @@ func (controller PurchaseController) PurchasePackage(ctx echo.Context) error {
 	}
 
 	premium, err := premiumPackage.GetPremiumPackageService().FindPremiumPackageByID(param.PremiumPackageID)
-	if premium == nil || err == nil {
+	if premium == nil || err != nil {
+		log.Println(premium)
+		log.Println(err)
 		return echo.NewHTTPError(http.StatusBadRequest, "Premium package not found")
 	}
 
