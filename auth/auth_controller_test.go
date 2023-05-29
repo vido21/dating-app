@@ -157,11 +157,11 @@ func TestRegisterInvalidParams(t *testing.T) {
 	testServer := echo.New()
 	testServer.Validator = &common.CustomValidator{Validator: validator.New()}
 	authController := AuthController{}
-	var registerForm RegisterUserRequest
-	registerForm.Email = "wrong-email-format"
-	registerForm.Password = commonTest.TestPassword
-	registerForm.Name = commonTest.TestName
-	data, _ := json.Marshal(registerForm)
+	var form RegisterUserRequest
+	form.Email = "wrong-email-format"
+	form.Password = commonTest.TestPassword
+	form.Name = commonTest.TestName
+	data, _ := json.Marshal(form)
 	req := httptest.NewRequest(http.MethodPost, "/", bytes.NewBufferString(string(data)))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	resp := httptest.NewRecorder()
@@ -176,7 +176,7 @@ func TestRegisterEmailConflict(t *testing.T) {
 	testServer := echo.New()
 	testServer.Validator = &common.CustomValidator{Validator: validator.New()}
 	authController := AuthController{}
-	registerForm := RegisterUserRequest{
+	form := RegisterUserRequest{
 		Email:    commonTest.TestEmail,
 		Password: commonTest.TestPassword,
 		Name:     commonTest.TestName,
@@ -187,7 +187,7 @@ func TestRegisterEmailConflict(t *testing.T) {
 		Password: commonTest.TestPassword,
 	})
 	originalUserService := users.SetUsersService(mockUserService)
-	data, _ := json.Marshal(registerForm)
+	data, _ := json.Marshal(form)
 	req := httptest.NewRequest(http.MethodPost, "/", bytes.NewBufferString(string(data)))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	resp := httptest.NewRecorder()
@@ -203,7 +203,7 @@ func TestRegisterSuccess(t *testing.T) {
 	testServer := echo.New()
 	testServer.Validator = &common.CustomValidator{Validator: validator.New()}
 	authController := AuthController{}
-	registerForm := RegisterUserRequest{
+	form := RegisterUserRequest{
 		Email:    commonTest.TestEmail,
 		Password: commonTest.TestPassword,
 		Name:     commonTest.TestName,
@@ -216,7 +216,7 @@ func TestRegisterSuccess(t *testing.T) {
 		Password: commonTest.TestPassword,
 	})
 	originalUserService := users.SetUsersService(mockUserService)
-	data, _ := json.Marshal(registerForm)
+	data, _ := json.Marshal(form)
 	req := httptest.NewRequest(http.MethodPost, "/", bytes.NewBufferString(string(data)))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	resp := httptest.NewRecorder()

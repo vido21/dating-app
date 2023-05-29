@@ -35,6 +35,7 @@ func InitTest() {
 	db.DropTableIfExists(&premiumPackageModels.PremiumPackage{})
 	db.DropTableIfExists(&purchaseModels.Purchase{})
 	db.DropTableIfExists(&swipeModels.Swipe{})
+
 	m := database.GetMigrations(db)
 	err = m.Migrate()
 	if err != nil {

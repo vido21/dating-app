@@ -26,12 +26,12 @@ func TestRoutes(t *testing.T) {
 // 	purchaseController := PurchaseController{}
 
 // 	packageID, _ := uuid.NewV1()
-// 	registerForm := PurchasePackageRequest{
+// 	form := PurchasePackageRequest{
 // 		PremiumPackageID: packageID,
 // 		PaymentAmount:    200000,
 // 	}
 
-// 	data, _ := json.Marshal(registerForm)
+// 	data, _ := json.Marshal(form)
 // 	req := httptest.NewRequest(http.MethodPost, "/", bytes.NewBufferString(string(data)))
 // 	req.Header.Set(echo.HeaderAuthorization, token)
 // 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)

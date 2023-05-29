@@ -32,7 +32,7 @@ func TestRoutes(t *testing.T) {
 }
 
 func TestProfilesController_CreateProfile(t *testing.T) {
-	println("Register api should return 200 response when the register is succeeded")
+	println("Register api should return 200 response when the create profile is succeeded")
 	token, _ := auth.GetAuthService().GetAccessToken(&userModels.User{
 		Name:     commonTest.TestName,
 		Email:    commonTest.TestEmail,
@@ -42,13 +42,13 @@ func TestProfilesController_CreateProfile(t *testing.T) {
 	testServer := echo.New()
 	testServer.Validator = &common.CustomValidator{Validator: validator.New()}
 	profileController := ProfilesController{}
-	registerForm := CreateProfileRequest{
+	form := CreateProfileRequest{
 		Sex:            "MALE",
 		ProfilePicture: "https://image.com/1",
 		About:          "About",
 	}
 
-	data, _ := json.Marshal(registerForm)
+	data, _ := json.Marshal(form)
 	req := httptest.NewRequest(http.MethodPost, "/", bytes.NewBufferString(string(data)))
 	req.Header.Set(echo.HeaderAuthorization, token)
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)

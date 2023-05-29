@@ -1,6 +1,7 @@
 package swipes
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/dgrijalva/jwt-go"
@@ -39,9 +40,11 @@ func (controller SwipesController) Routes() []common.Route {
 func (controller SwipesController) Swipe(ctx echo.Context) error {
 	param := new(SwipeRequest)
 	if err := ctx.Bind(param); err != nil {
+		log.Println(err)
 		return echo.NewHTTPError(http.StatusBadRequest, err)
 	}
 	if err := ctx.Validate(param); err != nil && len(param.Type) > 0 {
+		log.Println(err)
 		return ctx.JSON(http.StatusBadRequest, err)
 	}
 
@@ -50,6 +53,7 @@ func (controller SwipesController) Swipe(ctx echo.Context) error {
 	if len(param.Type) > 0 {
 		param.Type = models.Pass
 	}
+
 	if len(param.ProfileUserID) > 0 {
 		userID = uuid.Must(uuid.FromString(param.ProfileUserID))
 	}
@@ -59,6 +63,7 @@ func (controller SwipesController) Swipe(ctx echo.Context) error {
 
 	purchasedPackaged, err := purchases.GetPurchaseService().FindPurchasePackagedByUserID(user.Id)
 	if err != nil {
+		log.Println(err)
 		return echo.NewHTTPError(http.StatusNotFound, err)
 	}
 
@@ -78,7 +83,8 @@ func (controller SwipesController) Swipe(ctx echo.Context) error {
 	db := database.GetInstance()
 	err = db.Where("user_id = ?", user.Id).Find(&swipeHistory).Error
 	if err != nil {
-		return ctx.JSON(http.StatusBadRequest, err)
+		log.Println(err)
+		return ctx.JSON(http.StatusNotFound, err)
 	}
 
 	for _, swipeProfile := range swipeHistory {
@@ -96,16 +102,17 @@ func (controller SwipesController) Swipe(ctx echo.Context) error {
 		}(*param, db)
 	}
 
-	if isUnlimitedQuota || len(swipeHistory) < 10 {
+	if isUnlimitedQuota || len(swipeHistory) < models.LimitSwipe {
 		// search profile recomendation first row with condition id not in (user_id, list of swipe history user id)
 		profileReccomendation, err := profiles.GetProfileService().GetProfileRecomendation(excludeUserIDs)
 		if err != nil {
+			log.Println(err)
 			return ctx.JSON(http.StatusBadRequest, err)
-
 		}
 		return ctx.JSON(http.StatusOK, &profileReccomendation)
 	}
-	return ctx.JSON(http.StatusOK, map[string]interface{}{
+
+	return ctx.JSON(http.StatusNotAcceptable, map[string]interface{}{
 		"message": "You have reached maximum swipe today",
 	})
 }

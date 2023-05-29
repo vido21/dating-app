@@ -10,6 +10,8 @@ import (
 const (
 	Like = "LIKE"
 	Pass = "PASS"
+
+	LimitSwipe int = 10
 )
 
 type Swipe struct {

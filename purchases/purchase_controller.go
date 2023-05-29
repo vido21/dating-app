@@ -45,9 +45,8 @@ func (controller PurchaseController) PurchasePackage(ctx echo.Context) error {
 
 	premium, err := premiumPackage.GetPremiumPackageService().FindPremiumPackageByID(param.PremiumPackageID)
 	if premium == nil || err != nil {
-		log.Println(premium)
 		log.Println(err)
-		return echo.NewHTTPError(http.StatusBadRequest, "Premium package not found")
+		return echo.NewHTTPError(http.StatusNotFound, "Premium package not found")
 	}
 
 	if premium.Price > param.PaymentAmount {

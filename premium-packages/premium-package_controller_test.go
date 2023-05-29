@@ -28,13 +28,13 @@ func TestRoutes(t *testing.T) {
 	assert.Equal(t, len(routes), 1)
 }
 
-func TestGetListOfPremiumPackagesController_GetListOfPremiumPackages(t *testing.T) {
+func TestGetListOfPremiumPackagesController(t *testing.T) {
 	tests := []struct {
 		name string
 		test func()
 	}{
 		{
-			name: "Profile api should return 200 response when the authorization header is valid and success get data",
+			name: "Get List of Premium Package api should return 200 response when the authorization header is valid and success get data",
 			test: func() {
 				token, _ := auth.GetAuthService().GetAccessToken(&userModels.User{
 					Name:     commonTest.TestName,
