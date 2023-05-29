@@ -3,6 +3,7 @@ module github.com/github.com/vido21/dating-app
 go 1.14
 
 require (
+	bou.ke/monkey v1.0.2
 	github.com/0xAX/notificator v0.0.0-20191016112426-3962a5ea8da1 // indirect
 	github.com/Pallinder/go-randomdata v1.2.0
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751 // indirect
