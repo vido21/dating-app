@@ -1,0 +1,1017 @@
+{
+	"info": {
+		"_postman_id": "9c49cefc-db37-4cb1-87d9-a504e65ae946",
+		"name": "datingapp",
+		"description": "github repo link: https://github.com/triaton/go-echo-boilerplate",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5429677"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check the response status code",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Check the response body",
+									"pm.test(\"Response contains correct fields\", function () {",
+									"    var jsonData = pm.response.json();",
+									"",
+									"    pm.expect(jsonData).to.have.property(\"id\");",
+									"    pm.expect(jsonData).to.have.property(\"created_at\");",
+									"    pm.expect(jsonData).to.have.property(\"updated_at\");",
+									"    pm.expect(jsonData).to.have.property(\"email\");",
+									"    pm.expect(jsonData).to.have.property(\"name\");",
+									"    pm.expect(jsonData).to.have.property(\"password\");",
+									"    pm.expect(jsonData).to.have.property(\"profile\");",
+									"",
+									"    pm.expect(jsonData.profile).to.have.property(\"id\");",
+									"    pm.expect(jsonData.profile).to.have.property(\"created_at\");",
+									"    pm.expect(jsonData.profile).to.have.property(\"updated_at\");",
+									"    pm.expect(jsonData.profile).to.have.property(\"profile_picture\");",
+									"    pm.expect(jsonData.profile).to.have.property(\"sex\");",
+									"    pm.expect(jsonData.profile).to.have.property(\"about\");",
+									"    pm.expect(jsonData.profile).to.have.property(\"user_id\");",
+									"});",
+									"",
+									"// Optionally, you can also check the specific values in the response",
+									"pm.test(\"Response has correct values\", function () {",
+									"    var jsonData = pm.response.json();",
+									"",
+									"    pm.expect(jsonData.email).to.eql(\"user2@mail.com\");",
+									"    pm.expect(jsonData.name).to.eql(\"user2\");",
+									"    pm.expect(jsonData.profile.profile_picture).to.eql(\"\");",
+									"    pm.expect(jsonData.profile.sex).to.eql(0);",
+									"    pm.expect(jsonData.profile.about).to.eql(\"\");",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user2@mail.com\",\n    \"name\": \"user2\",\n    \"password\": \"12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:1200/api/v0/auth/register",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "1200",
+							"path": [
+								"api",
+								"v0",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "user2",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"user2@mail.com\",\n    \"name\": \"user2\",\n    \"password\": \"12345\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "127.0.0.1:1200/api/v0/auth/register",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "1200",
+									"path": [
+										"api",
+										"v0",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 May 2023 07:51:56 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "284"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"db4fbeab-1db4-479d-845a-0d9aa4787fd0\",\n    \"created_at\": \"2023-05-28T23:07:26.162026+07:00\",\n    \"updated_at\": \"2023-05-28T23:07:26.162026+07:00\",\n    \"email\": \"user2@mail.com\",\n    \"name\": \"user2\",\n    \"password\": \"$2a$14$ztKszpHjJFERMBKq0A05qu3INe7MtJN6vXXBys56vgsRgyfvgsrDq\",\n    \"profile\": {\n        \"id\": \"00000000-0000-0000-0000-000000000000\",\n        \"created_at\": \"0001-01-01T00:00:00Z\",\n        \"updated_at\": \"0001-01-01T00:00:00Z\",\n        \"profile_picture\": \"\",\n        \"sex\": 0,\n        \"about\": \"\",\n        \"user_id\": \"00000000-0000-0000-0000-000000000000\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Check the response body",
+									"pm.test(\"Response contains token\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property(\"token\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user2@mail.com\",\n    \"password\": \"12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:1200/api/v0/auth/login",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "1200",
+							"path": [
+								"api",
+								"v0",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "user2",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"user2@mail.com\",\n    \"password\": \"12345\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "127.0.0.1:1200/api/v0/auth/login",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "1200",
+									"path": [
+										"api",
+										"v0",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 May 2023 07:52:56 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "253"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNlcjIiLCJlbWFpbCI6InVzZXIyQG1haWwuY29tIiwiaWQiOiI0MjJhYTAyNC0yNjNhLTQ5YzQtYmMxYi1lOTI0YWI4YzI2MGUiLCJleHAiOjE2ODUyNzExNzYsImlhdCI6MTY4NTI2MDM3Nn0.MauV4nsuAFdiMY7X-MT7ehSFgzni0ZZ_c9t97AbOsvE\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNlcjIiLCJlbWFpbCI6InVzZXIyQG1haWwuY29tIiwiaWQiOiJkYjRmYmVhYi0xZGI0LTQ3OWQtODQ1YS0wZDlhYTQ3ODdmZDAiLCJleHAiOjE2ODUzMDA4OTcsImlhdCI6MTY4NTI5MDA5N30.MkXj_hAIZiEzXAm22Wum3xOWcFrgWqnRbM4riIbfQY8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:1200/api/v0/auth/profile",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "1200",
+							"path": [
+								"api",
+								"v0",
+								"auth",
+								"profile"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "user2",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNlcjIiLCJlbWFpbCI6InVzZXIyQG1haWwuY29tIiwiaWQiOiJkYjRmYmVhYi0xZGI0LTQ3OWQtODQ1YS0wZDlhYTQ3ODdmZDAiLCJleHAiOjE2ODUzOTQ4MDcsImlhdCI6MTY4NTM4NDAwN30.UOfwTheUxnnwOygZdXbGMCfyLZ_zsMcYaDc-4M2eKHU",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "127.0.0.1:1200/api/v0/auth/profile",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "1200",
+									"path": [
+										"api",
+										"v0",
+										"auth",
+										"profile"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 May 2023 07:53:54 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "120"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"user2\",\n    \"email\": \"user2@mail.com\",\n    \"id\": \"422aa024-263a-49c4-bc1b-e924ab8c260e\",\n    \"exp\": 1685271176,\n    \"iat\": 1685260376\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check the response status code",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Check the response body",
+									"pm.test(\"Response contains correct fields\", function () {",
+									"    var jsonData = pm.response.json();",
+									"",
+									"    pm.expect(jsonData).to.have.property(\"id\");",
+									"    pm.expect(jsonData).to.have.property(\"created_at\");",
+									"    pm.expect(jsonData).to.have.property(\"updated_at\");",
+									"    pm.expect(jsonData).to.have.property(\"profile_picture\");",
+									"    pm.expect(jsonData).to.have.property(\"sex\");",
+									"    pm.expect(jsonData).to.have.property(\"about\");",
+									"    pm.expect(jsonData).to.have.property(\"user_id\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNlcjIiLCJlbWFpbCI6InVzZXIyQG1haWwuY29tIiwiaWQiOiJkYjRmYmVhYi0xZGI0LTQ3OWQtODQ1YS0wZDlhYTQ3ODdmZDAiLCJleHAiOjE2ODUzOTQ4MDcsImlhdCI6MTY4NTM4NDAwN30.UOfwTheUxnnwOygZdXbGMCfyLZ_zsMcYaDc-4M2eKHU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:1200/api/v0/profile",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "1200",
+							"path": [
+								"api",
+								"v0",
+								"profile"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "user2",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "127.0.0.1:1200/api/v0/profile",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "1200",
+									"path": [
+										"api",
+										"v0",
+										"profile"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 May 2023 12:49:33 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "856"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"9e066275-3521-424f-a945-b3a5c6c905fe\",\n        \"created_at\": \"2023-05-28T12:26:32.334526Z\",\n        \"updated_at\": \"2023-05-28T12:26:32.334526Z\",\n        \"profile_picture\": \"https://img.freepik.com/free-photo/digital-painting-mountain-with-colorful-tree-foreground_1340-25699.jpg?w=2000&t=st=1685269596~exp=1685270196~hmac=6bc5156016bb91aa1fdede8f21f3cd85b737ee98dde77834323531d91ba7e9a8\",\n        \"sex\": 1,\n        \"about\": \"I'm a passionate individual who loves exploring new things and meeting interesting people. I have a curious mind and enjoy learning about different cultures, languages, and cuisines. In my free time, you can find me reading books, going on hikes, or experimenting with new recipes in the kitchen. I believe in living life to the fullest and cherishing every moment. Let's connect and share our stories!\",\n        \"user_id\": \"868b1e6c-8a48-4e62-9887-41b991694f6d\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Create Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check the response status code",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Check the response body",
+									"pm.test(\"Response contains correct fields\", function () {",
+									"    var jsonData = pm.response.json();",
+									"",
+									"    pm.expect(jsonData).to.have.property(\"id\");",
+									"    pm.expect(jsonData).to.have.property(\"created_at\");",
+									"    pm.expect(jsonData).to.have.property(\"updated_at\");",
+									"    pm.expect(jsonData).to.have.property(\"profile_picture\");",
+									"    pm.expect(jsonData).to.have.property(\"sex\");",
+									"    pm.expect(jsonData).to.have.property(\"about\");",
+									"    pm.expect(jsonData).to.have.property(\"user_id\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNlcjIiLCJlbWFpbCI6InVzZXIyQG1haWwuY29tIiwiaWQiOiJkYjRmYmVhYi0xZGI0LTQ3OWQtODQ1YS0wZDlhYTQ3ODdmZDAiLCJleHAiOjE2ODUzOTQ4MDcsImlhdCI6MTY4NTM4NDAwN30.UOfwTheUxnnwOygZdXbGMCfyLZ_zsMcYaDc-4M2eKHU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"profile_picture\": \"https://img.freepik.com/free-photo/digital-painting-mountain-with-colorful-tree-foreground_1340-25699.jpg?w=2000&t=st=1685269596~exp=1685270196~hmac=6bc5156016bb91aa1fdede8f21f3cd85b737ee98dde77834323531d91ba7e9a8\",   \n    \"about\": \"I'm a passionate individual who loves exploring new things and meeting interesting people. I have a curious mind and enjoy learning about different cultures, languages, and cuisines. In my free time, you can find me reading books, going on hikes, or experimenting with new recipes in the kitchen. I believe in living life to the fullest and cherishing every moment. Let's connect and share our stories!\",\n    \"sex\": \"MALE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:1200/api/v0/profile",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "1200",
+							"path": [
+								"api",
+								"v0",
+								"profile"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "user2",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"profile_picture\": \"https://img.freepik.com/free-photo/digital-painting-mountain-with-colorful-tree-foreground_1340-25699.jpg?w=2000&t=st=1685269596~exp=1685270196~hmac=6bc5156016bb91aa1fdede8f21f3cd85b737ee98dde77834323531d91ba7e9a8\",   \n    \"about\": \"I'm a passionate individual who loves exploring new things and meeting interesting people. I have a curious mind and enjoy learning about different cultures, languages, and cuisines. In my free time, you can find me reading books, going on hikes, or experimenting with new recipes in the kitchen. I believe in living life to the fullest and cherishing every moment. Let's connect and share our stories!\",\n    \"sex\": \"MALE\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "127.0.0.1:1200/api/v0/profile",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "1200",
+									"path": [
+										"api",
+										"v0",
+										"profile"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 May 2023 12:36:22 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "864"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"ID\": \"7f0f6c6c-b4d4-4be2-a1b8-5eaa5b2a1a9d\",\n    \"CreatedAt\": \"2023-05-28T19:36:22.806677+07:00\",\n    \"UpdatedAt\": \"2023-05-28T19:36:22.806677+07:00\",\n    \"DeletedAt\": null,\n    \"ProfilePicture\": \"https://img.freepik.com/free-photo/digital-painting-mountain-with-colorful-tree-foreground_1340-25699.jpg?w=2000&t=st=1685269596~exp=1685270196~hmac=6bc5156016bb91aa1fdede8f21f3cd85b737ee98dde77834323531d91ba7e9a8\",\n    \"Sex\": 1,\n    \"About\": \"I'm a passionate individual who loves exploring new things and meeting interesting people. I have a curious mind and enjoy learning about different cultures, languages, and cuisines. In my free time, you can find me reading books, going on hikes, or experimenting with new recipes in the kitchen. I believe in living life to the fullest and cherishing every moment. Let's connect and share our stories!\",\n    \"UserID\": \"868b1e6c-8a48-4e62-9887-41b991694f6d\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Premium Package",
+			"item": [
+				{
+					"name": "List of Premium Package",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check the response status code",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Check the response body",
+									"pm.test(\"Response contains correct fields\", function () {",
+									"    var jsonData = pm.response.json();",
+									"",
+									"    pm.expect(jsonData).to.be.an('array').that.is.not.empty;",
+									"",
+									"    jsonData.forEach(function (package) {",
+									"        pm.expect(package).to.have.property(\"id\");",
+									"        pm.expect(package).to.have.property(\"created_at\");",
+									"        pm.expect(package).to.have.property(\"updated_at\");",
+									"        pm.expect(package).to.have.property(\"description\");",
+									"        pm.expect(package).to.have.property(\"name\");",
+									"        pm.expect(package).to.have.property(\"type\");",
+									"        pm.expect(package).to.have.property(\"price\");",
+									"    });",
+									"});",
+									"",
+									"// Optionally, you can also check the specific values in the response",
+									"pm.test(\"Response has correct values\", function () {",
+									"    var jsonData = pm.response.json();",
+									"",
+									"    pm.expect(jsonData[0].description).to.eql(\"Upgrade to our Premium Package and enjoy unlimited access to all the features of our dating app. With the Unlimited Quota package, you can swipe right and left without any restrictions on the number of profiles you can view in a day. Find your perfect match without limitations.\");",
+									"    pm.expect(jsonData[0].name).to.eql(\"Premium Package - Unlimited Quota\");",
+									"    pm.expect(jsonData[0].type).to.eql(\"UNLIMITED_QUOTA\");",
+									"    pm.expect(jsonData[0].price).to.eql(200000);",
+									"",
+									"    pm.expect(jsonData[1].description).to.eql(\"Upgrade to our Premium Package and get the Verified Label. Stand out from the crowd with a verified badge on your profile, showing others that you're a trusted user. Increase your chances of making meaningful connections and enjoy a more enhanced online dating experience.\");",
+									"    pm.expect(jsonData[1].name).to.eql(\"Premium Package - Verified Label\");",
+									"    pm.expect(jsonData[1].type).to.eql(\"VERIFIED_USER\");",
+									"    pm.expect(jsonData[1].price).to.eql(100000);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNlcjIiLCJlbWFpbCI6InVzZXIyQG1haWwuY29tIiwiaWQiOiJkYjRmYmVhYi0xZGI0LTQ3OWQtODQ1YS0wZDlhYTQ3ODdmZDAiLCJleHAiOjE2ODUzOTQ4MDcsImlhdCI6MTY4NTM4NDAwN30.UOfwTheUxnnwOygZdXbGMCfyLZ_zsMcYaDc-4M2eKHU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:1200/api/v0/premium-package",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "1200",
+							"path": [
+								"api",
+								"v0",
+								"premium-package"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List of Premium Package (user2)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "127.0.0.1:1200/api/v0/premium-package",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "1200",
+									"path": [
+										"api",
+										"v0",
+										"premium-package"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 May 2023 14:05:15 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1043"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"359f7705-ef11-4d56-9430-7e93cce8386e\",\n        \"created_at\": \"2023-05-28T13:53:24.559589Z\",\n        \"updated_at\": \"2023-05-28T13:53:24.559589Z\",\n        \"description\": \"Upgrade to our Premium Package and enjoy unlimited access to all the features of our dating app. With the Unlimited Quota package, you can swipe right and left without any restrictions on the number of profiles you can view in a day. Find your perfect match without limitations.\",\n        \"name\": \"Premium Package - Unlimited Quota\",\n        \"type\": \"UNLIMITED_QUOTA\",\n        \"price\": 200000\n    },\n    {\n        \"id\": \"86a50fb2-5fe6-4412-a1e3-be92741dfc63\",\n        \"created_at\": \"2023-05-28T13:53:24.568685Z\",\n        \"updated_at\": \"2023-05-28T13:53:24.568685Z\",\n        \"description\": \"Upgrade to our Premium Package and get the Verified Label. Stand out from the crowd with a verified badge on your profile, showing others that you're a trusted user. Increase your chances of making meaningful connections and enjoy a more enhanced online dating experience.\",\n        \"name\": \"Premium Package - Verified Label\",\n        \"type\": \"VERIFIED_USER\",\n        \"price\": 100000\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Purchase",
+			"item": [
+				{
+					"name": "Purchase",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check the response status code",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Check the response body",
+									"pm.test(\"Response contains correct fields\", function () {",
+									"    var jsonData = pm.response.json();",
+									"",
+									"    pm.expect(jsonData).to.have.property(\"id\");",
+									"    pm.expect(jsonData).to.have.property(\"created_at\");",
+									"    pm.expect(jsonData).to.have.property(\"updated_at\");",
+									"    pm.expect(jsonData).to.have.property(\"user_id\");",
+									"    pm.expect(jsonData).to.have.property(\"premium_package_id\");",
+									"    pm.expect(jsonData).to.have.property(\"premium_packages\").that.is.null;",
+									"    pm.expect(jsonData).to.have.property(\"users\").that.is.null;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNlcjIiLCJlbWFpbCI6InVzZXIyQG1haWwuY29tIiwiaWQiOiJkYjRmYmVhYi0xZGI0LTQ3OWQtODQ1YS0wZDlhYTQ3ODdmZDAiLCJleHAiOjE2ODUzOTQ4MDcsImlhdCI6MTY4NTM4NDAwN30.UOfwTheUxnnwOygZdXbGMCfyLZ_zsMcYaDc-4M2eKHU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"premium_package_id\" : \"05968e64-1e65-44f2-a237-6d1a8fcaedbb\",\n    \"payment_amount\": 200000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:1200/api/v0/purchase",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "1200",
+							"path": [
+								"api",
+								"v0",
+								"purchase"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Purchase(user2)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"premium_package_id\" : \"359f7705-ef11-4d56-9430-7e93cce8386e\",\n    \"payment_amount\": 200000\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "127.0.0.1:1200/api/v0/purchase",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "1200",
+									"path": [
+										"api",
+										"v0",
+										"purchase"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 May 2023 15:16:02 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "288"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"6af52a2a-3adf-4971-94eb-c9d2cf298e62\",\n    \"created_at\": \"2023-05-28T22:16:02.742431+07:00\",\n    \"updated_at\": \"2023-05-28T22:16:02.742431+07:00\",\n    \"user_id\": \"868b1e6c-8a48-4e62-9887-41b991694f6d\",\n    \"premium_package_id\": \"359f7705-ef11-4d56-9430-7e93cce8386e\",\n    \"premium_packages\": null,\n    \"users\": null\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Swipe",
+			"item": [
+				{
+					"name": "swipe",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check the response status code",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Check the response body",
+									"pm.test(\"Response contains correct fields\", function () {",
+									"    var jsonData = pm.response.json();",
+									"",
+									"    pm.expect(jsonData).to.have.property(\"id\");",
+									"    pm.expect(jsonData).to.have.property(\"created_at\");",
+									"    pm.expect(jsonData).to.have.property(\"updated_at\");",
+									"    pm.expect(jsonData).to.have.property(\"profile_picture\");",
+									"    pm.expect(jsonData).to.have.property(\"sex\");",
+									"    pm.expect(jsonData).to.have.property(\"about\");",
+									"    pm.expect(jsonData).to.have.property(\"user_id\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNlcjIiLCJlbWFpbCI6InVzZXIyQG1haWwuY29tIiwiaWQiOiJkYjRmYmVhYi0xZGI0LTQ3OWQtODQ1YS0wZDlhYTQ3ODdmZDAiLCJleHAiOjE2ODUzOTQ4MDcsImlhdCI6MTY4NTM4NDAwN30.UOfwTheUxnnwOygZdXbGMCfyLZ_zsMcYaDc-4M2eKHU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\" : \"pass\",\n    \"profile_user_id\": \"33eca01a-fd83-11ed-92c1-724b01fa54d6\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:1200/api/v0/swipe",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "1200",
+							"path": [
+								"api",
+								"v0",
+								"swipe"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "swipe(user2)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"type\" : \"pass\",\n    \"profile_user_id\": \"33eca01a-fd83-11ed-92c1-724b01fa54d6\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "127.0.0.1:1200/api/v0/swipe",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "1200",
+									"path": [
+										"api",
+										"v0",
+										"swipe"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=UTF-8"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 28 May 2023 18:55:17 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "413"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"005fb496-b4ee-4776-8622-b82fb8a5a426\",\n    \"created_at\": \"2023-05-28T18:38:10.214277Z\",\n    \"updated_at\": \"2023-05-28T18:38:10.214277Z\",\n    \"profile_picture\": \"https://image.com/7\",\n    \"sex\": 0,\n    \"about\": \"Near it in the field, I remember, were three faint points of light, three telescopic stars infinitely remote, and all around it was the unfathomable darkness of empty space.\",\n    \"user_id\": \"cb972ebe-fd86-11ed-8289-724b01fa54d6\"\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}
