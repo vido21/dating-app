@@ -97,3 +97,35 @@ func Test_purchaseService_FindPurchasePackagedByUserID(t *testing.T) {
 		})
 	}
 }
+
+func TestGetPurchaseService(t *testing.T) {
+	tests := []struct {
+		name string
+		want PurchaseService
+		mock func()
+	}{
+		{
+			name: "singleton is nil",
+			want: &purchaseService{},
+		},
+		{
+			name: "singleton is nil",
+			want: &purchaseService{},
+			mock: func() {
+				singleton = &purchaseService{}
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			if tt.mock != nil {
+				tt.mock()
+			}
+
+			if got := GetPurchaseService(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetPurchaseService() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

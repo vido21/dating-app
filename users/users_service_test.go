@@ -123,3 +123,35 @@ func Test_usersService_AddUser(t *testing.T) {
 		})
 	}
 }
+
+func TestGetUsersService(t *testing.T) {
+	tests := []struct {
+		name string
+		want UsersService
+		mock func()
+	}{
+		{
+			name: "singleton is nil",
+			want: &usersService{},
+		},
+		{
+			name: "singleton is nil",
+			want: &usersService{},
+			mock: func() {
+				singleton = &usersService{}
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			if tt.mock != nil {
+				tt.mock()
+			}
+
+			if got := GetUsersService(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetUsersService() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

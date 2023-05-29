@@ -88,3 +88,35 @@ func Test_profileService_GetProfileRecomendation(t *testing.T) {
 		})
 	}
 }
+
+func TestGetProfileService(t *testing.T) {
+	tests := []struct {
+		name string
+		want ProfileService
+		mock func()
+	}{
+		{
+			name: "singleton is nil",
+			want: &profileService{},
+		},
+		{
+			name: "singleton is nil",
+			want: &profileService{},
+			mock: func() {
+				singleton = &profileService{}
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			if tt.mock != nil {
+				tt.mock()
+			}
+
+			if got := GetProfileService(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetProfileService() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

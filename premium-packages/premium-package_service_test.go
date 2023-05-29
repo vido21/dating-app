@@ -271,3 +271,35 @@ func Test_premiumPackageService_IsConsistsVerifiedUserPackage(t *testing.T) {
 		})
 	}
 }
+
+func TestGetPremiumPackageService(t *testing.T) {
+	tests := []struct {
+		name string
+		want PremiumPackageService
+		mock func()
+	}{
+		{
+			name: "singleton is nil",
+			want: &premiumPackageService{},
+		},
+		{
+			name: "singleton is nil",
+			want: &premiumPackageService{},
+			mock: func() {
+				singleton = &premiumPackageService{}
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			if tt.mock != nil {
+				tt.mock()
+			}
+
+			if got := GetPremiumPackageService(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetPremiumPackageService() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
