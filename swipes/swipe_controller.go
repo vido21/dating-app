@@ -3,6 +3,7 @@ package swipes
 import (
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/github.com/vido21/dating-app/common"
@@ -95,7 +96,7 @@ func (controller SwipesController) Swipe(ctx echo.Context) error {
 	if len(userID) > 0 {
 		go func(param SwipeRequest, db *gorm.DB) {
 			err = db.Create(&models.Swipe{
-				SwipeType: param.Type,
+				SwipeType: strings.ToUpper(param.Type),
 				UserID:    user.Id,
 				ProfileID: userID,
 			}).Error
