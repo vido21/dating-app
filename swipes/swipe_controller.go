@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/github.com/vido21/dating-app/common"
@@ -81,8 +82,11 @@ func (controller SwipesController) Swipe(ctx echo.Context) error {
 	}
 
 	// get list profile id in swipe history (today)
+	today := time.Now()
+	startOfDay := time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location())
+	endOfDay := startOfDay.Add(24 * time.Hour)
 	db := database.GetInstance()
-	err = db.Where("user_id = ?", user.Id).Find(&swipeHistory).Error
+	err = db.Where("user_id = ? and created_at BETWEEN ? AND ?", user.Id, startOfDay, endOfDay).Find(&swipeHistory).Error
 	if err != nil {
 		log.Println(err)
 		return ctx.JSON(http.StatusNotFound, err)
