@@ -47,7 +47,7 @@ This project ships following features as default
 
 ## Running Application
 
-Rename .env.example to .env and place your database credentials and jwt secret key
+Rename `.env.example` to `.env` and place your database credentials and jwt secret key
 
 ```
 $ mv .env.example .env
