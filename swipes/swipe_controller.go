@@ -49,14 +49,14 @@ func (controller SwipesController) Swipe(ctx echo.Context) error {
 		return ctx.JSON(http.StatusBadRequest, err)
 	}
 
-	var userID uuid.UUID
+	var profileUserID uuid.UUID
 	// Set default param type to pass
 	if len(param.Type) > 0 {
 		param.Type = models.Pass
 	}
 
 	if len(param.ProfileUserID) > 0 {
-		userID = uuid.Must(uuid.FromString(param.ProfileUserID))
+		profileUserID = uuid.Must(uuid.FromString(param.ProfileUserID))
 	}
 
 	token := ctx.Get("user").(*jwt.Token)
@@ -72,12 +72,12 @@ func (controller SwipesController) Swipe(ctx echo.Context) error {
 	isUnlimitedQuota := premiumPackages.GetPremiumPackageService().IsConsistsUnlimitedQuotaPackage(purchasedPackaged.PremiumPackages)
 
 	var swipeHistory []models.Swipe
-	var excludeUserIDs = []uuid.UUID{
+	var excludeProfileIDs = []uuid.UUID{
 		user.Id,
 	}
 
-	if len(userID) > 0 {
-		excludeUserIDs = append(excludeUserIDs, userID)
+	if profileUserID != uuid.Nil {
+		excludeProfileIDs = append(excludeProfileIDs, profileUserID)
 	}
 
 	// get list profile id in swipe history (today)
@@ -89,23 +89,23 @@ func (controller SwipesController) Swipe(ctx echo.Context) error {
 	}
 
 	for _, swipeProfile := range swipeHistory {
-		excludeUserIDs = append(excludeUserIDs, swipeProfile.UserID)
+		excludeProfileIDs = append(excludeProfileIDs, swipeProfile.ProfileID)
 	}
 
 	// create swipe history
-	if len(userID) > 0 {
+	if len(profileUserID) > 0 {
 		go func(param SwipeRequest, db *gorm.DB) {
 			err = db.Create(&models.Swipe{
 				SwipeType: strings.ToUpper(param.Type),
 				UserID:    user.Id,
-				ProfileID: userID,
+				ProfileID: profileUserID,
 			}).Error
 		}(*param, db)
 	}
 
 	if isUnlimitedQuota || len(swipeHistory) < models.LimitSwipe {
 		// search profile recomendation first row with condition id not in (user_id, list of swipe history user id)
-		profileReccomendation, err := profiles.GetProfileService().GetProfileRecomendation(excludeUserIDs)
+		profileReccomendation, err := profiles.GetProfileService().GetProfileRecomendation(excludeProfileIDs, user.Id)
 		if err != nil {
 			log.Println(err)
 			return ctx.JSON(http.StatusBadRequest, err)

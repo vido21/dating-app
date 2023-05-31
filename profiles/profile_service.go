@@ -30,14 +30,14 @@ func SetProfileService(service ProfileService) ProfileService {
 }
 
 type ProfileService interface {
-	GetProfileRecomendation(excludeUserIDs []uuid.UUID) (*models.Profile, error)
+	GetProfileRecomendation(excludeProfileIDs []uuid.UUID, excludeUserID uuid.UUID) (*models.Profile, error)
 }
 
-func (u *profileService) GetProfileRecomendation(excludeUserIDs []uuid.UUID) (*models.Profile, error) {
+func (u *profileService) GetProfileRecomendation(excludeProfileIDs []uuid.UUID, excludeUserID uuid.UUID) (*models.Profile, error) {
 	db := database.GetInstance()
 	var profile models.Profile
 
-	err := db.Not("user_id IN (?)", excludeUserIDs).First(&profile).Error
+	err := db.Not("id IN (?) OR user_id = (?)", excludeProfileIDs, excludeUserID).First(&profile).Error
 	if err != nil {
 		return nil, err
 	}

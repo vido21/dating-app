@@ -13,7 +13,8 @@ import (
 
 func Test_profileService_GetProfileRecomendation(t *testing.T) {
 	type args struct {
-		excludeUserIDs []uuid.UUID
+		excludeProfileIDs []uuid.UUID
+		excludeUserID     uuid.UUID
 	}
 	tests := []struct {
 		name    string
@@ -27,7 +28,8 @@ func Test_profileService_GetProfileRecomendation(t *testing.T) {
 			name: "success get data",
 			u:    &profileService{},
 			args: args{
-				excludeUserIDs: []uuid.UUID{},
+				excludeProfileIDs: []uuid.UUID{},
+				excludeUserID:     uuid.UUID{},
 			},
 			want: &models.Profile{},
 			mock: func() {
@@ -50,7 +52,8 @@ func Test_profileService_GetProfileRecomendation(t *testing.T) {
 			name: "error get data",
 			u:    &profileService{},
 			args: args{
-				excludeUserIDs: []uuid.UUID{},
+				excludeProfileIDs: []uuid.UUID{},
+				excludeUserID:     uuid.UUID{},
 			},
 			wantErr: true,
 			mock: func() {
@@ -77,7 +80,7 @@ func Test_profileService_GetProfileRecomendation(t *testing.T) {
 			tt.mock()
 			defer monkey.UnpatchAll()
 
-			got, err := u.GetProfileRecomendation(tt.args.excludeUserIDs)
+			got, err := u.GetProfileRecomendation(tt.args.excludeProfileIDs, tt.args.excludeUserID)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("profileService.GetProfileRecomendation() error = %v, wantErr %v", err, tt.wantErr)
 				return
