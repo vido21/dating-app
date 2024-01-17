@@ -1,0 +1,20 @@
+# .gitlab-ci.yml
+
+# Define the stages for the pipeline
+stages:
+  - test
+
+# Define the job to run unit tests
+unit_tests:
+  stage: test
+  image: docker:latest  # Only need the Docker image here
+  services:
+    - docker:dind
+  before_script:
+    - apk add --no-cache go  # Install Golang in the Docker image
+    - go get -v ./...       # Install dependencies
+  script:
+    - docker-compose up -d  # Start any required services (e.g., database)
+    - go test -v ./...      # Run Golang tests
+  after_script:
+    - docker-compose down   # Shut down the containers after the tests

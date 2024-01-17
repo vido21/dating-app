@@ -1,0 +1,36 @@
+version: '3'
+networks:
+  datingapp:
+
+services:
+  mysql:
+    image: postgres:11
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=datingapp
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    volumes:
+      - ./data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:5
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  postgres-testing:
+    image: postgres:11
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=datingapp_testing
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    volumes:
+      - ./data-testing:/var/lib/postgresql/data

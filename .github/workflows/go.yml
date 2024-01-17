@@ -1,0 +1,33 @@
+# .github/workflows/go.yml
+
+name: Go CI
+
+on:
+  push:
+    branches:
+      - main  # Change this to your default branch name
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.17  # Change this to your Go version
+
+    - name: Install dependencies
+      run: go get -v ./...
+
+    - name: Start Docker services
+      run: docker-compose up -d
+
+    - name: Run tests
+      run: go test -v ./...
+
+    - name: Shut down Docker services
+      run: docker-compose down
